@@ -832,6 +832,24 @@ public class Robot extends TimedRobot {
       }
     }
 
+  public void Clockwise(double degrees, double speed){
+      double innerDistance = 12 * 6.095233693;
+
+      if(e_Left1.getPosition() < innerDistance || e_Left2.getPosition() < innerDistance){
+        pc_Left1.setReference(speed, ControlType.kVelocity);
+        pc_Left2.setReference(speed, ControlType.kVelocity);
+        pc_Right1.setReference(-speed * 1.69444444, ControlType.kVelocity);
+        pc_Right2.setReference(-speed * 1.69444444, ControlType.kVelocity);
+      }
+      else{
+        m_DriveTrain.stopMotor();
+        e_Right1.setPosition(0);
+        e_Right2.setPosition(0);
+        e_Left1.setPosition(0);
+        e_Left2.setPosition(0);
+        autoCounter ++;
+      }
+    
     public void rightTurn(double targetAngle){
       double actualYaw = navX.getYaw() % 360;
 
@@ -852,6 +870,7 @@ public class Robot extends TimedRobot {
       }
 
     }
+  
 
     public void leftTurn(double targetAngle){
       double actualYaw = navX.getYaw() % 360;
