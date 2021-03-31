@@ -1059,6 +1059,43 @@ else{
       }
 
     }
+public void getLimelight(){
+      NetworkTable limeTable = ntwrkInst.getTable("limelight");
+      NetworkTableEntry limeEntry = limeTable.getEntry("tx");
+      double rawLimeX = limeEntry.getDouble(1000);
+      return rawLimeX;
+    }
+    public void shootBallsWithAccuracy(boolean shotActive){
+      double finalValue = getLimelight();
+      if(Math.abs(finalValue) <= 100){
+      do{
+        double finalValue = getLimelight(); 
+        pc_Left1.setReference(-1000, ControlType.kVelocity);
+        pc_Left2.setReference(-1000, ControlType.kVelocity);
+        pc_Right1.setReference(-1000, ControlType.kVelocity);
+        pc_Right2.setReference(-1000, ControlType.kVelocity);
+      }while(finalValue > 0);
+      do{
+        double finalValue = getLimelight();
+        pc_Left1.setReference(1000, ControlType.kVelocity);
+        pc_Left2.setReference(1000, ControlType.kVelocity);
+        pc_Right1.setReference(1000, ControlType.kVelocity);
+        pc_Right2.setReference(1000, ControlType.kVelocity);
+      }while(finalValue < 0);
+      if (Math.abs(finalValue) < 3){
+        if (shotActive == true){
+          shootingBalls();
+        }
+        m_DriveTrain.stopMotor();
+        e_Left1.setPosition(0);
+        e_Left2.setPosition(0);
+        e_Right1.setPosition(0);
+        e_Right2.setPosition(0);
+      }else{
+	 System.out.println("Overshot or undershot Value");
+    }
+    }
+
 
     public void leftTurn(double targetAngle){
       if(resetYaw == false){
